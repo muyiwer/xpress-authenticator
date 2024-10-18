@@ -1,6 +1,6 @@
 {
   "name": "xpress_merchant_authenticator",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "This is the official script that runs the merchant portal authenticator iframe",
   "main": "v1/inlinejs.js",
   "scripts": {
@@ -19,6 +19,18 @@
     "url": "https://github.com/muyiwer/xpress-authenticator.git"
   },
   "contributors": [
+    {
+      "name": "Matthew Oluwajuwon",
+      "email": "matthewoluwajuwon056@gmail.com",
+      "url": "https://github.com/Matthew-Oluwajuwon"
+    },
+    {
+      "name": "Olumuyiwa Aro",
+      "email": "muyiweraro@gmail.com",
+      "url": "https://github.com/muyiwer/"
+    }
+  ],
+  "collaborators": [
     {
       "name": "Matthew Oluwajuwon",
       "email": "matthewoluwajuwon056@gmail.com",

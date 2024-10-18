@@ -1,4 +1,4 @@
-# npm_xpressPay
+# xpress_merchant_authenticator
 
 This is a JavaScript library for implementing Xpress Authenticator
 
