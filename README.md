@@ -34,6 +34,7 @@ import MerchantPortalAuthenticator from 'xpress_merchant_authenticator'
  
    const loginUser = () => {
 MerchantPortalAuthenticator.login({
+        appKey: "test123",
         onError: error => console.log(error.message),
         onSuccess: response => console.log(response.token)
       })
@@ -46,6 +47,9 @@ MerchantPortalAuthenticator.closeIframe()
 
      <button onclick={cancelLoginModal} style="padding: 1rem;">Cancel</button>
 ```
+
+### appKey
+Contact the admin for your appKey
 
 ### onSuccess function Response data.
 
