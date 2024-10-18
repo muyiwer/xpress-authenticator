@@ -24,11 +24,11 @@ class MerchantPortalAuthenticator {
     }
   }
 
-  static async login({ onSuccess, onError }) {
+  static async login({ onSuccess, onError, appKey }) {
     MerchantPortalAuthenticator.showSpinner();
     const iframe = document.createElement("iframe");
     iframe.classList.add("iframe");
-    iframe.setAttribute("src", "http://localhost:9908");
+    iframe.setAttribute("src", appKey);
     iframe.setAttribute("frameborder", "0");
     MerchantPortalAuthenticator.iframeElement = iframe;
     document.body.appendChild(iframe);

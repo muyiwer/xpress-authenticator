@@ -7,6 +7,7 @@ interface LoginErrorResponse {
 }
 
 interface SetupParams {
+  appKey: string
   onSuccess: (data: LoginSuccessResponse) => void;
   onError: (error: LoginErrorResponse) => void;
 }
