@@ -70,10 +70,8 @@ After login function is called. Call onError to know if the login is failed. The
 
 Why not star the github repo? I'd love the attention! Why not share the link for this repository on Twitter or Any Social Media? Spread the word!
 
-Don't forget to [follow me on twitter](https://twitter.com/muyiTechBadtGuy)!
-
 Thanks!
-Olumuyiwa Aro
+Matthew Oluwajuwon
 
 ## License
 
