@@ -38,6 +38,10 @@ class MerchantPortalAuthenticator {
         onSuccess({
           token: event.data?.loginResponse?.data?.token
         });
+      } else if (event.data?.loginError?.error && onError) {
+        onError({
+          message: "Error occurred on server. Please try again later"
+        });
       } else if (onError) {
         onError({
           message: event.data?.loginResponse?.responseMessage
@@ -84,7 +88,7 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 window.addEventListener("message", event => {
-  if (event.data === "closeIframe") {
+  if (event.data?.type === "closeIframe") {
     MerchantPortalAuthenticator.closeIframe();
   }
 });
