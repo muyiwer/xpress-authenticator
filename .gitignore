@@ -1,9 +1,6 @@
 # Node.js dependencies
 node_modules/
 
-# Build outputs
-v1/
-
 # Logs
 logs/
 *.log
