@@ -92,3 +92,4 @@ window.addEventListener("message", event => {
     MerchantPortalAuthenticator.closeIframe();
   }
 });
+export default MerchantPortalAuthenticator;
