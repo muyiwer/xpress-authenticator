@@ -24,21 +24,23 @@ class MerchantPortalAuthenticator {
     }
   }
 
-  static async login({ onLogin }) {
-    MerchantPortalAuthenticator.showSpinner()
+  static async login({ onSuccess, onError }) {
+    MerchantPortalAuthenticator.showSpinner();
     const iframe = document.createElement("iframe");
-      iframe.classList.add("iframe")
-      iframe.setAttribute("src", "http://localhost:9908");
-      iframe.setAttribute("frameborder", "0");
-      MerchantPortalAuthenticator.iframeElement = iframe;
-      document.body.appendChild(iframe);
-      MerchantPortalAuthenticator.hideSpinner()
+    iframe.classList.add("iframe");
+    iframe.setAttribute("src", "http://localhost:9908");
+    iframe.setAttribute("frameborder", "0");
+    MerchantPortalAuthenticator.iframeElement = iframe;
+    document.body.appendChild(iframe);
+    MerchantPortalAuthenticator.hideSpinner();
 
-      window.addEventListener("message", event => {
-        if (event.data.loginResponse) {
-          onLogin(event.data?.loginResponse)
-        } 
-      })
+    window.addEventListener("message", (event) => {
+      if (event.data?.loginResponse?.responseCode === "0" && onSuccess) {
+        onSuccess({ token: event.data?.loginResponse?.data?.token });
+      } else if (onError) {
+        onError({ message: event.data?.loginResponse?.responseMessage });
+      }
+    });
   }
 }
 

@@ -1,6 +1,10 @@
-interface LoginSuccessResponse {}
+interface LoginSuccessResponse {
+  token: string
+}
 
-interface LoginErrorResponse {}
+interface LoginErrorResponse {
+  message: string
+}
 
 interface SetupParams {
   onSuccess: (data: LoginSuccessResponse) => void;

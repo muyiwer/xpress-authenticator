@@ -1,6 +1,6 @@
 # npm_xpressPay
 
-This is a JavaScript library for implementing XpressPay payment gateway
+This is a JavaScript library for implementing Xpress Authenticator
 
 ## Demo
 
@@ -8,20 +8,20 @@ This is a JavaScript library for implementing XpressPay payment gateway
 
 ## Get Started
 
-This Javascript library provides a wrapper to add XpressPay Payment to your React, Vue, Angular and any other Javascript Framework application
+This Javascript library provides a wrapper to add Xpress Authenticator to your React, Vue, Angular and any other Javascript Framework application
 
 
 
 ### Install
 
 ```sh
-npm install i npm_xpresspay
+npm install i xpress_merchant_authenticator
 ```
 
 or with `yarn`
 
 ```sh
-yarn add npm_xpresspay
+yarn add xpress_merchant_authenticator
 ```
 
 ### Usage
@@ -29,78 +29,28 @@ yarn add npm_xpresspay
 This library can be implemented into any Javascript framework applications
 
 
- ### Sample Function Request and Responses
+ ### Usage
 
-#### Request for calling InitialisePayment function.
+```javascript
 
-To initialize the transaction, you'll need to pass information such as email, first name, last name amount, publicKey, etc. Email and amount are required. You can also pass any other additional information in the metadata object field. Here is the full list of parameters you can pass:
-|Param       | Type                 | Default    | Required | Description                      
-| :------------ | :------------------- | :--------- | :------- | :-------------------------------------------------
-| amount	| `string`			   | undefined      | `true`  | Amount you want to debit customer e.g 1000.00, 10.00...
-| transactionId      | `string`             | undefined   | `true`  | Unique case sensitive transaction identification
-| email | `string`             | undefined       | `true`  | Email address of customer
-| publicKey       | `string`        | undefined | `true`  | Your public key from XpressPay.
-| currency      | `string`  |  `NGN`    | `true`   | Currency charge should be performed in. Allowed only `NGN`.
-| productId      | `string`  |  undefined    | `false`   | unique identification number of the product your customer want to pay to.
-| applyConviniencyCharge      | `boolean`  |  undefined    | `false`   | specify whether to apply charge for this customer transaction.
-| productDescription     | `string`  |  undefined    | `false`   | description number of the product your customer want to pay to.
-| mode      | `string`  |  `Debug`    | `true`   | Allowed values are `Debug` or `Live`.
-| callBackUrl      | `string`  |  your current url page    | `false`   | CallbackUrl is the url you want your customer to be redirected to when payment is successful. The default url is the page url where customer intialized payment.
-| bodyColor     | `string`  |  null    | `false`   | your prefered customized color for the payment page body.
-| buttonColor     | `string`  |  null    | `false`   |  your prefered customized color for the payment page buttons.
-| footerText     | `string`  |  null    | `false`   |  your prefered customized text for the payment page footer.
-| footerLogo     | `string`  |  null    | `false`   |  your prefered customized logo for the payment page footer.
-| metadata      | `object`  |  empty `object`    | `false`   | Object containing any extra information you want recorded with the transaction.
+import MerchantPortalAuthenticator from 'xpress_merchant_authenticator'
+ 
+   const loginUser = () => {
+MerchantPortalAuthenticator.login({
+        onLogin: data => console.log(data),
+      })
+   }
+    const cancelLoginModal = () => {
+MerchantPortalAuthenticator.closeIframe()
+   }
 
-```json
-{
-      "amount":  "2000.00", 
-      "transactionId": "Math.floor(Math.random() * 1000000)", 
-      "email": "sample@mail.com",
-      "publicKey": "xxxxxxxxxxxxxxxxxxxxxxxxxx",
-      "currency": "NGN", 
-      "mode": "Debug",
-      "callbackUrl": "window.location.href/?transactionId=12345678",
-      "productId":"1001",
-      "applyConviniencyCharge":true,
-      "productDescription":"MTN",
-      "bodyColor": "#0000",
-      "buttonColor": "#0000",
-      "footerText": "Powered by Test Ltd",
-      "footerLink": "http://test.com",
-      "footerLogo": "http://test.com/test.png",
-      "metadata": [
-        {
-          "name": "sample",
-          "value": "test",
-        },
-      ],
-}
-```
-#### Response from calling InitialisePayment function
-
-|Param       | Type                 | Description                      
-| :------------ | :------------------- | :-------------------------------------------------
-| success	| `boolean`			 | Shows whether the intialise payment function call was successful or not
-| message | `string`  | description of the response data
-| data | `object`          | it includes `authorizeUrl` which is the url that you will use to redirect your customers to make payment and `reference` which is the unique transaction identification generated from us.
-
-```json
-{
-  "success":true,
-  "message":"sucessfully initialized payment",
-  "data": {
-                "authorizeUrl": "http://xpay.com/xxxxxxxx",
-                "reference": "xxxxxxxx",
-          }
-}
+    <button onclick={loginUser} style="padding: 1rem;">Login</button>
+     <button onclick={cancelLoginModal} style="padding: 1rem;">Cancel</button>
 ```
 
+#### login Response data.
 
-
-#### Request for calling VerifyPayment function.
-
-To verify payment, you'll need to pass information such as publicKey, transactionId and mode are required. Here is the full list of parameters you can pass:
+After login function is called. The below login data table shows what to expects from onLogin returned data
 |Param       | Type                 | Default    | Required | Description                      
 | :------------ | :------------------- | :--------- | :------- | :-------------------------------------------------
 | transactionId      | `string`             | undefined   | `true`  | Unique case sensitive transaction identification
