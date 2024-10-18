@@ -28,9 +28,6 @@ yarn add xpress_merchant_authenticator
 
 This library can be implemented into any Javascript framework applications
 
-
- ### Usage
-
 ```javascript
 
 import MerchantPortalAuthenticator from 'xpress_merchant_authenticator'
