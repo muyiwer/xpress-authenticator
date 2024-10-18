@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div
+      style="
+        background-color: pink;
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <button onclick="MerchantPortalAuthenticator.login({
+        onLogin: data => console.log(data),
+      })" style="padding: 1rem;">Login</button>
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti ipsam
+        nesciunt nemo architecto voluptatibus temporibus corporis est magni
+        fugiat doloribus velit voluptates cum id labore ipsa provident,
+        consectetur laborum. Doloribus.
+      </p>
+    </div>
+  </body>
+    <script src="src/inlinejs.js"></script>
+  </body>
+</html>

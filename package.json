@@ -1,0 +1,19 @@
+{
+  "name": "merchant-portal-inlinejs",
+  "version": "1.0.0",
+  "description": "This is the offical script that runs the merchant portal authenticator iframe",
+  "main": "v1/inlinejs.js",
+  "scripts": {
+    "test": "jest",
+    "build": "babel src -d v1",
+    "start": "node v1/inlinejs.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.7",
+    "@babel/core": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "typescript": "^5.5.4"
+  },
+  "author": "",
+  "license": "MIT"
+}
