@@ -33,19 +33,35 @@ This library can be implemented into any Javascript framework applications
 import MerchantPortalAuthenticator from 'xpress_merchant_authenticator'
  
    const loginUser = () => {
-MerchantPortalAuthenticator.login({
-        appKey: "test123",
-        onError: error => console.log(error.message),
-        onSuccess: response => console.log(response.token)
-      })
-   }
-    const cancelLoginModal = () => {
-MerchantPortalAuthenticator.closeIframe()
+     MerchantPortalAuthenticator.login({
+       appKey: "test123",
+       onError: error => console.log(error.message),
+       onSuccess: response => console.log(response.token)
+     })
    }
 
-    <button onclick={loginUser} style="padding: 1rem;">Login</button>
+   const getToken = () => {
+     MerchantPortalAuthenticator.getToken({
+       appKey: "test123",
+       onError: error => console.log(error.message),
+       onSuccess: token => {
+        console.log(token);
+      }
+     })
+   }
 
-     <button onclick={cancelLoginModal} style="padding: 1rem;">Cancel</button>
+   const cancelLoginModal = () => {
+     MerchantPortalAuthenticator.closeIframe({
+       appKey: "test123",
+       onError: error => console.log(error.message)
+     })
+    }
+
+    <button onclick={loginUser}>Login</button>
+
+    <button onclick={getToken}>Get Token</button>
+
+    <button onclick={cancelLoginModal}>Cancel</button>
 ```
 
 ### appKey

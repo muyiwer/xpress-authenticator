@@ -1,33 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div
-      style="
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+<!-- onclick="MerchantPortalAuthenticator.login({
+    appKey: `http://localhost:9908/`,
+    onSuccess: data => console.log(data),
+  })"  -->
+
+<body>
+  <div style="
         background-color: pink;
         min-height: 100svh;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-      "
-    >
-      <button onclick="MerchantPortalAuthenticator.login({
-        appKey: `http://172.22.54.111:5502/`,
-        onSuccess: data => console.log(data),
-      })" style="padding: 1rem;">Login</button>
-      <p>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti ipsam
-        nesciunt nemo architecto voluptatibus temporibus corporis est magni
-        fugiat doloribus velit voluptates cum id labore ipsa provident,
-        consectetur laborum. Doloribus.
-      </p>
-    </div>
-  </body>
-    <script src="src/inlinejs.js"></script>
-  </body>
+        gap: 10px;
+      ">
+    <button id="login" style="padding: 1rem;">
+      Login
+    </button>
+
+    <button id="validate" style="padding: 1rem;">
+      Get token
+    </button>
+
+    <button id="logOut" style="padding: 1rem;">
+      LogOut
+    </button>
+  </div>
+</body>
+<script src="src/inlinejs.js"></script>
+<script>
+  document.getElementById("validate").addEventListener("click", function validateHandler() {
+    MerchantPortalAuthenticator.getToken({
+      appKey: 'http://localhost:9908/',
+      onSuccess: token => {
+        console.log("token", token);
+      },
+      onError: error => {
+        console.log(error);
+        document.getElementById("validate").removeEventListener("click", validateHandler);
+      }
+    });
+  });
+
+  document.getElementById("login").addEventListener("click", function loginHandler() {
+    MerchantPortalAuthenticator.login({
+      appKey: `http://172.22.54.111:5502/`,
+      onSuccess: data => {
+        console.log(data);
+        document.getElementById("login").removeEventListener("click", loginHandler);
+      },
+      onError: error => {
+        console.log(error);
+        document.getElementById("login").removeEventListener("click", loginHandler);
+      }
+    });
+  });
+
+  document.getElementById("logOut").addEventListener("click", function logOutHandler() {
+    MerchantPortalAuthenticator.logOut({
+      appKey: 'http://localhost:9908/',
+      onError: error => {
+        console.log(error);
+        document.getElementById("logOut").removeEventListener("click", logOutHandler);
+      }
+    });
+    document.getElementById("logOut").removeEventListener("click", logOutHandler);
+  });
+
+</script>
+</body>
+
 </html>
