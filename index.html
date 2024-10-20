@@ -38,13 +38,12 @@
 <script>
   document.getElementById("validate").addEventListener("click", function validateHandler() {
     MerchantPortalAuthenticator.getToken({
-      appKey: 'http://localhost:9908/',
+      appKey: 'http://172.22.54.111:5502/',
       onSuccess: token => {
         console.log("token", token);
       },
       onError: error => {
         console.log(error);
-        document.getElementById("validate").removeEventListener("click", validateHandler);
       }
     });
   });
@@ -54,24 +53,20 @@
       appKey: `http://172.22.54.111:5502/`,
       onSuccess: data => {
         console.log(data);
-        document.getElementById("login").removeEventListener("click", loginHandler);
       },
       onError: error => {
         console.log(error);
-        document.getElementById("login").removeEventListener("click", loginHandler);
       }
     });
   });
 
   document.getElementById("logOut").addEventListener("click", function logOutHandler() {
     MerchantPortalAuthenticator.logOut({
-      appKey: 'http://localhost:9908/',
+      appKey: 'http://172.22.54.111:5502/',
       onError: error => {
         console.log(error);
-        document.getElementById("logOut").removeEventListener("click", logOutHandler);
       }
     });
-    document.getElementById("logOut").removeEventListener("click", logOutHandler);
   });
 
 </script>

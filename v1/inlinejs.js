@@ -32,28 +32,16 @@ class MerchantPortalAuthenticator {
       MerchantPortalAuthenticator.spinnerElement = null;
     }
   }
-  static handleIframeError(iframe, connectionTimeout, onError) {
+  static handleIframeError(iframe, onError) {
     // Event listener for iframe load error
     iframe.onerror = () => {
       MerchantPortalAuthenticator.hideSpinner();
-      MerchantPortalAuthenticator.closeIframe();
       if (onError) {
         onError({
           message: "Failed to load Xpress Merchant authenticator."
         });
       }
     };
-
-    // Set a timeout to handle cases where the iframe src can't connect
-    connectionTimeout = setTimeout(() => {
-      MerchantPortalAuthenticator.hideSpinner();
-      MerchantPortalAuthenticator.closeIframe();
-      if (onError) {
-        onError({
-          message: "Connection refused. The server may be down."
-        });
-      }
-    }, 10000); // 10 seconds timeout
   }
   static async login({
     onSuccess,
@@ -66,13 +54,21 @@ class MerchantPortalAuthenticator {
     iframe.setAttribute("src", appKey);
     iframe.setAttribute("frameborder", "0");
     let connectionTimeout;
-
     // Event listener for when the iframe successfully loads
     iframe.onload = () => {
       MerchantPortalAuthenticator.hideSpinner();
       clearTimeout(connectionTimeout); // Clear the timeout if loaded successfully
     };
-    MerchantPortalAuthenticator.handleIframeError(iframe, connectionTimeout, onError);
+    connectionTimeout = setTimeout(() => {
+      MerchantPortalAuthenticator.hideSpinner();
+      if (onError) {
+        onError({
+          message: "Connection refused. The server may be down."
+        });
+      }
+    }, 10000); // 10 seconds timeout
+
+    MerchantPortalAuthenticator.handleIframeError(iframe, onError);
     MerchantPortalAuthenticator.iframeElement = iframe;
     document.body.appendChild(iframe);
     window.addEventListener("message", event => {
@@ -106,13 +102,22 @@ class MerchantPortalAuthenticator {
       MerchantPortalAuthenticator.hideSpinner();
       clearTimeout(connectionTimeout); // Clear the timeout if loaded successfully
     };
-    MerchantPortalAuthenticator.handleIframeError(iframe, connectionTimeout, onError);
+    connectionTimeout = setTimeout(() => {
+      MerchantPortalAuthenticator.hideSpinner();
+      if (onError) onError({
+        message: "Connection refused. The server may be down."
+      });
+    }, 10000); // 10 seconds timeout
+
+    MerchantPortalAuthenticator.handleIframeError(iframe, onError);
     MerchantPortalAuthenticator.iframeElement = iframe;
     document.body.appendChild(iframe);
     window.addEventListener("message", async event => {
       if (event.data?.type === "token") {
-        if (onSuccess) onSuccess(event.data?.token);
-        MerchantPortalAuthenticator.closeIframe();
+        if (onSuccess && event.data?.token) onSuccess(event.data?.token);else if (onError && !event.data?.token) onError({
+          message: "Sorry, it seems merchant has logged out"
+        });
+        MerchantPortalAuthenticator.hideSpinner();
       }
     });
   }
@@ -126,7 +131,15 @@ class MerchantPortalAuthenticator {
     iframe.onload = () => {
       clearTimeout(connectionTimeout); // Clear the timeout if loaded successfully
     };
-    MerchantPortalAuthenticator.handleIframeError(iframe, connectionTimeout, onError);
+    connectionTimeout = setTimeout(() => {
+      MerchantPortalAuthenticator.hideSpinner();
+      if (onError) {
+        onError({
+          message: "Connection refused. The server may be down."
+        });
+      }
+    }, 10000); // 10 seconds timeout
+    MerchantPortalAuthenticator.handleIframeError(iframe, onError);
     document.body.appendChild(iframe);
   }
 }
