@@ -32,6 +32,8 @@ declare class MerchantPortalAuthenticator {
 
   static getToken(params: TokenParams): Promise<void>;
 
+  getMerchantPortalToken(params:TokenParams): Promise<void>
+
   static closeIframe(params: LogOutParams): void;
 }
 

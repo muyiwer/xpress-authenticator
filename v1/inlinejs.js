@@ -121,6 +121,40 @@ class MerchantPortalAuthenticator {
       }
     });
   }
+  static async getMerchantPortalToken({
+    appKey,
+    onSuccess,
+    onError
+  }) {
+    MerchantPortalAuthenticator.showSpinner();
+    const iframe = document.createElement("iframe");
+    iframe.setAttribute("src", appKey);
+    let connectionTimeout;
+    // Event listener for when the iframe successfully loads
+
+    iframe.onload = () => {
+      MerchantPortalAuthenticator.hideSpinner();
+      clearTimeout(connectionTimeout); // Clear the timeout if loaded successfully
+    };
+    connectionTimeout = setTimeout(() => {
+      MerchantPortalAuthenticator.hideSpinner();
+      if (onError) onError({
+        message: "Connection refused. The server may be down."
+      });
+    }, 10000); // 10 seconds timeout
+
+    MerchantPortalAuthenticator.handleIframeError(iframe, onError);
+    MerchantPortalAuthenticator.iframeElement = iframe;
+    document.body.appendChild(iframe);
+    window.addEventListener("message", async event => {
+      if (event.data?.type === "token") {
+        if (onSuccess && event.data?.token) onSuccess(event.data?.token);else if (onError && !event.data?.token) onError({
+          message: "Sorry, it seems merchant has logged out"
+        });
+        MerchantPortalAuthenticator.hideSpinner();
+      }
+    });
+  }
   static async logOut({
     appKey,
     onError

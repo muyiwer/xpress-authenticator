@@ -1,6 +1,6 @@
 {
   "name": "xpress_merchant_authenticator",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "description": "This is the official script that runs the merchant portal authenticator iframe",
   "main": "v1/inlinejs.js",
   "types": "index.d.ts",

@@ -50,6 +50,16 @@ import MerchantPortalAuthenticator from 'xpress_merchant_authenticator'
      })
    }
 
+    const getMerchantPortalToken = () => {
+     MerchantPortalAuthenticator.getToken({
+       appKey: "test123",
+       onError: error => console.log(error.message),
+       onSuccess: token => {
+        console.log(token);
+      }
+     })
+   }
+
    const cancelLoginModal = () => {
      MerchantPortalAuthenticator.closeIframe({
        appKey: "test123",
