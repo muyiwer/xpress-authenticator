@@ -28,6 +28,9 @@
     <button id="validate" style="padding: 1rem;">
       Get token
     </button>
+    <button id="validateMerchant" style="padding: 1rem;">
+      Get merchant token
+    </button>
 
     <button id="logOut" style="padding: 1rem;">
       LogOut
@@ -39,6 +42,18 @@
   document.getElementById("validate").addEventListener("click", function validateHandler() {
     MerchantPortalAuthenticator.getToken({
       appKey: 'http://172.22.54.111:5502/',
+      onSuccess: token => {
+        console.log("token", token);
+      },
+      onError: error => {
+        console.log(error);
+      }
+    });
+  });
+
+  document.getElementById("validateMerchant").addEventListener("click", function validateHandler() {
+    MerchantPortalAuthenticator.getMerchantPortalToken({
+      appKey: 'http://localhost:9904/',
       onSuccess: token => {
         console.log("token", token);
       },

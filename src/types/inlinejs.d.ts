@@ -28,13 +28,11 @@ declare class MerchantPortalAuthenticator {
 
   static login(params: SetupParams): Promise<void>;
 
-  static logOut(params:{appKey: string}): Promise<void>;
+  static logOut(params: LogOutParams): Promise<void>;
 
   static getToken(params:TokenParams): Promise<void>
-  
-  getMerchantPortalToken(params:TokenParams): Promise<void>
 
-  static closeIframe(params: LogOutParams): void;
+  static closeIframe(): void;
 }
 
 declare const style: HTMLStyleElement;
