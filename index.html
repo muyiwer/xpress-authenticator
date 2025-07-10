@@ -3,88 +3,77 @@
 
 <head>
   <meta charset="UTF-8" />
+  <title>Merchant Authenticator Integration</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+    }
+  </style>
 </head>
-<!-- onclick="MerchantPortalAuthenticator.login({
-    appKey: `http://localhost:9908/`,
-    onSuccess: data => console.log(data),
-  })"  -->
 
 <body>
-  <div style="
-        background-color: pink;
-        min-height: 100svh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-      ">
-    <button id="login" style="padding: 1rem;">
-      Login
-    </button>
+  <h2>Merchant Portal Integration</h2>
+  <button id="loginBtn">Login</button>
+  <button id="getTokenBtn">Get Token</button>
+  <button id="logoutBtn">Logout</button>
+  <button id="embedUrlBtn">Embed URL in iframe</button>
 
-    <button id="validate" style="padding: 1rem;">
-      Get token
-    </button>
-    <button id="validateMerchant" style="padding: 1rem;">
-      Get merchant token
-    </button>
+  <script src="http://127.0.0.1:5500/v1/inlinejs.js"></script>
 
-    <button id="logOut" style="padding: 1rem;">
-      LogOut
-    </button>
-  </div>
-</body>
-<script src="src/inlinejs.js"></script>
-<script>
-  document.getElementById("validate").addEventListener("click", function validateHandler() {
-    MerchantPortalAuthenticator.getToken({
-      appKey: 'http://172.22.54.111:5502/',
-      onSuccess: token => {
-        console.log("token", token);
-      },
-      onError: error => {
-        console.log(error);
+  <script>
+    const appKey = "http://localhost:9904/";
+
+    const handleSuccess = (data) => {
+      console.log("Login success:", data);
+      alert("Login token: " + data.token);
+    };
+
+    const handleError = (error) => {
+      console.error("Login error:", error);
+      alert("Error: " + error.message);
+    };
+
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      MerchantPortalAuthenticator.login({
+        appKey,
+        onSuccess: handleSuccess,
+        onError: handleError,
+      });
+    });
+
+    document.getElementById("getTokenBtn").addEventListener("click", () => {
+      MerchantPortalAuthenticator.getToken({
+        appKey,
+        onSuccess: (token) => {
+          alert("Token received: " + token);
+        },
+        onError: handleError,
+      });
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      MerchantPortalAuthenticator.logOut({
+        appKey,
+        onError: handleError,
+      });
+    });
+
+    document.getElementById("embedUrlBtn").addEventListener("click", () => {
+      const url = prompt("Enter a URL to embed in iframe:", "http://localhost:9904");
+      if (url) {
+        MerchantPortalAuthenticator.setMerchantKYC(url, "", undefined, "100%");
       }
     });
-  });
-
-  document.getElementById("validateMerchant").addEventListener("click", function validateHandler() {
-    MerchantPortalAuthenticator.getMerchantPortalToken({
-      appKey: 'http://localhost:9904/',
-      onSuccess: token => {
-        console.log("token", token);
-      },
-      onError: error => {
-        console.log(error);
-      }
-    });
-  });
-
-  document.getElementById("login").addEventListener("click", function loginHandler() {
-    MerchantPortalAuthenticator.login({
-      appKey: `http://172.22.54.111:5502/`,
-      onSuccess: data => {
-        console.log(data);
-      },
-      onError: error => {
-        console.log(error);
-      }
-    });
-  });
-
-  document.getElementById("logOut").addEventListener("click", function logOutHandler() {
-    MerchantPortalAuthenticator.logOut({
-      appKey: 'http://172.22.54.111:5502/',
-      onError: error => {
-        console.log(error);
-      }
-    });
-  });
-
-</script>
+  </script>
 </body>
 
 </html>

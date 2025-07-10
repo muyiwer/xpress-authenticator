@@ -1,6 +1,6 @@
 {
   "name": "xpress_merchant_authenticator",
-  "version": "1.2.8",
+  "version": "1.3.0",
   "description": "This is the official script that runs the merchant portal authenticator iframe",
   "main": "v1/inlinejs.js",
   "types": "index.d.ts",
@@ -13,7 +13,9 @@
   "devDependencies": {
     "@babel/cli": "^7.24.7",
     "@babel/core": "^7.24.7",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/preset-env": "^7.24.7",
+    "babel-loader": "^10.0.0",
     "typescript": "^5.5.4"
   },
   "repository": {

@@ -1,25 +1,25 @@
 interface LoginSuccessResponse {
-  token: string
+  token: string;
 }
 
 interface LoginErrorResponse {
-  message: string
+  message: string;
 }
 
 interface SetupParams {
-  appKey: string
+  appKey: string;
   onSuccess: (data: LoginSuccessResponse) => void;
   onError: (error: LoginErrorResponse) => void;
 }
 
 interface TokenParams {
-  appKey: string
+  appKey: string;
   onSuccess: (token: string) => void;
   onError: (error: LoginErrorResponse) => void;
 }
 
 interface LogOutParams {
-  appKey: string
+  appKey: string;
   onError: (error: LoginErrorResponse) => void;
 }
 
@@ -30,11 +30,18 @@ declare class MerchantPortalAuthenticator {
 
   static logOut(params: LogOutParams): Promise<void>;
 
-  static getToken(params:TokenParams): Promise<void>
+  static getToken(params: TokenParams): Promise<void>;
 
   static closeIframe(): void;
+
+  static setMerchantKYC(
+    appKey: string,
+    token: string,
+    width?: string,
+    height?: string
+  ): Promise<void>;
 }
 
 declare const style: HTMLStyleElement;
 
-export default MerchantPortalAuthenticator
+export default MerchantPortalAuthenticator;

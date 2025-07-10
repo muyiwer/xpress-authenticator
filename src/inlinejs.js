@@ -46,6 +46,26 @@ class MerchantPortalAuthenticator {
     };
   }
 
+  static setMerchantKYC(appKey, token, width = "100%", height = "100vh") {
+    if (typeof appKey !== "string" || !appKey.startsWith("http")) {
+      console.error("Invalid URL provided to setMerchantKYC");
+      return;
+    }
+    
+    const iframe = document.createElement("iframe");
+    iframe.setAttribute("src", `${appKey}/oauth/compliance?xps=${token}`);
+    iframe.setAttribute("frameborder", "0");
+    iframe.setAttribute("width", width);
+    iframe.setAttribute("height", height);
+    iframe.style.border = "none";
+    iframe.style.position = "relative";
+    iframe.style.zIndex = "999";
+
+    MerchantPortalAuthenticator.closeIframe(); // Remove existing iframe
+    MerchantPortalAuthenticator.iframeElement = iframe;
+    document.body.appendChild(iframe);
+  }
+
   static async login({ onSuccess, onError, appKey }) {
     MerchantPortalAuthenticator.showSpinner();
 
@@ -93,10 +113,18 @@ class MerchantPortalAuthenticator {
   static async getToken({ appKey, onSuccess, onError }) {
     MerchantPortalAuthenticator.showSpinner();
     const iframe = document.createElement("iframe");
-    iframe.setAttribute("src", appKey);
-    let connectionTimeout;
-    // Event listener for when the iframe successfully loads
 
+    iframe.setAttribute("src", appKey);
+
+    // Add sandbox attributes to allow scripts, storage, and messaging
+    iframe.setAttribute(
+      "sandbox",
+      "allow-scripts allow-same-origin allow-popups allow-forms allow-modals"
+    );
+
+    let connectionTimeout;
+
+    // Event listener for when the iframe successfully loads
     iframe.onload = () => {
       MerchantPortalAuthenticator.hideSpinner();
       MerchantPortalAuthenticator.closeIframe();
@@ -116,9 +144,11 @@ class MerchantPortalAuthenticator {
 
     window.addEventListener("message", async (event) => {
       if (event.data?.type === "token") {
-        if (onSuccess && event.data?.token) onSuccess(event.data?.token);
-        else if (onError && !event.data?.token)
+        if (onSuccess && event.data?.token) {
+          onSuccess(event.data?.token);
+        } else if (onError && !event.data?.token) {
           onError({ message: "Sorry, it seems merchant has logged out" });
+        }
         MerchantPortalAuthenticator.hideSpinner();
       }
     });
@@ -130,7 +160,7 @@ class MerchantPortalAuthenticator {
 
     let connectionTimeout;
     iframe.onload = () => {
-      clearTimeout(connectionTimeout); 
+      clearTimeout(connectionTimeout);
       MerchantPortalAuthenticator.closeIframe();
     };
     connectionTimeout = setTimeout(() => {
