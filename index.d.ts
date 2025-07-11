@@ -8,8 +8,8 @@ interface LoginErrorResponse {
 
 interface SetupParams {
   appKey: string;
-  onSuccess: (data: LoginSuccessResponse) => void;
-  onError: (error: LoginErrorResponse) => void;
+  windowWidth: number | undefined;
+  windowHeight: number | undefined;
 }
 
 interface TokenParams {
@@ -33,6 +33,14 @@ declare class MerchantPortalAuthenticator {
   static getToken(params: TokenParams): Promise<void>;
 
   static closeIframe(): void;
+
+  static setMerchantKYC(
+    appKey: string,
+    token: string,
+    containerSelector: string,
+    height?: string | undefined,
+    width?: string | undefined,
+  ): Promise<void>;
 }
 
 declare const style: HTMLStyleElement;

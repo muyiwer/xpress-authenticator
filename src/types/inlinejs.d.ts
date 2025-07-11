@@ -8,8 +8,8 @@ interface LoginErrorResponse {
 
 interface SetupParams {
   appKey: string;
-  onSuccess: (data: LoginSuccessResponse) => void;
-  onError: (error: LoginErrorResponse) => void;
+  windowWidth: number | undefined;
+  windowHeight: number | undefined;
 }
 
 interface TokenParams {
@@ -37,8 +37,9 @@ declare class MerchantPortalAuthenticator {
   static setMerchantKYC(
     appKey: string,
     token: string,
-    width?: string,
-    height?: string
+    width: string | undefined,
+    height: string | undefined,
+    overlayMode: boolean | undefined
   ): Promise<void>;
 }
 

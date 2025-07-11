@@ -45,69 +45,66 @@ class MerchantPortalAuthenticator {
       }
     };
   }
-
-  static setMerchantKYC(appKey, token, width = "100%", height = "100vh") {
+  static setMerchantKYC(
+    appKey,
+    token,
+    containerSelector,
+    height = "100vh",
+    width = "100%"
+  ) {
     if (typeof appKey !== "string" || !appKey.startsWith("http")) {
       console.error("Invalid URL provided to setMerchantKYC");
       return;
     }
-    
+  
+    appKey = appKey.replace(/\/$/, "");
+  
     const iframe = document.createElement("iframe");
     iframe.setAttribute("src", `${appKey}/oauth/compliance?xps=${token}`);
     iframe.setAttribute("frameborder", "0");
     iframe.setAttribute("width", width);
     iframe.setAttribute("height", height);
     iframe.style.border = "none";
+    iframe.style.zIndex = "999999";
     iframe.style.position = "relative";
-    iframe.style.zIndex = "999";
-
-    MerchantPortalAuthenticator.closeIframe(); // Remove existing iframe
+  
+    MerchantPortalAuthenticator.closeIframe(); // Remove previous iframe
     MerchantPortalAuthenticator.iframeElement = iframe;
-    document.body.appendChild(iframe);
+  
+    let container = null;
+    if (containerSelector) {
+      // Try querySelector first
+      container = document.querySelector(containerSelector);
+      console.log("first", container)
+      // If that fails and it's a plain ID, try getElementById
+      if (!container && !containerSelector.includes("#") && !containerSelector.includes(".")) {
+        container = document.getElementById(containerSelector);
+        console.log("second", container)
+      }
+    }
+  
+    console.log("third", container)
+    if (container) {
+      container.appendChild(iframe);
+    } else {
+      console.warn("Container not found. Falling back to body.");
+      document.body.appendChild(iframe);
+    }
   }
+  
 
-  static async login({ onSuccess, onError, appKey }) {
-    MerchantPortalAuthenticator.showSpinner();
+  static async login({ appKey, windowWidth, windowHeight }) {
+    const width = windowWidth ?? 800;
+    const height = windowHeight ?? 600;
 
-    const iframe = document.createElement("iframe");
-    iframe.classList.add("iframe");
-    iframe.setAttribute("src", appKey);
-    iframe.setAttribute("frameborder", "0");
-
-    let connectionTimeout;
-    // Event listener for when the iframe successfully loads
-    iframe.onload = () => {
-      MerchantPortalAuthenticator.hideSpinner();
-      clearTimeout(connectionTimeout); // Clear the timeout if loaded successfully
-    };
-
-    connectionTimeout = setTimeout(() => {
-      MerchantPortalAuthenticator.hideSpinner();
-      if (onError) {
-        onError({ message: "Connection refused. The server may be down." });
-      }
-    }, 10000); // 10 seconds timeout
-
-    MerchantPortalAuthenticator.handleIframeError(iframe, onError);
-
-    MerchantPortalAuthenticator.iframeElement = iframe;
-    document.body.appendChild(iframe);
-
-    window.addEventListener("message", (event) => {
-      if (event.data?.loginResponse?.responseCode === "0" && onSuccess) {
-        onSuccess({
-          token: event.data?.loginResponse?.data?.token,
-        });
-      } else if (event.data?.loginError?.error && onError) {
-        onError({
-          message: "Error occurred on server. Please try again later",
-        });
-      } else if (onError) {
-        onError({
-          message: event.data?.loginResponse?.responseMessage,
-        });
-      }
-    });
+    const left = (window.screen.width - width) / 2;
+    const top = (window.screen.height - height) / 2;
+    appKey = appKey?.replace(/\/$/, "");
+    window.open(
+      `${appKey}/login?rdt=true`,
+      "_blank",
+      `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=no,toolbar=no,menubar=no,location=no,status=no`
+    );
   }
 
   static async getToken({ appKey, onSuccess, onError }) {

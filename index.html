@@ -18,14 +18,136 @@
       cursor: pointer;
     }
   </style>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f0f4f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      column-gap: 20;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    .container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .form-group input:focus {
+      border-color: #4a90e2;
+      outline: none;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #4a90e2;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .submit-btn:hover {
+      background-color: #357ab8;
+    }
+
+    .login-link {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .login-link a {
+      color: #4a90e2;
+      text-decoration: none;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 
 <body>
-  <h2>Merchant Portal Integration</h2>
-  <button id="loginBtn">Login</button>
-  <button id="getTokenBtn">Get Token</button>
-  <button id="logoutBtn">Logout</button>
-  <button id="embedUrlBtn">Embed URL in iframe</button>
+    <div class="container">
+      <div class="form-group">
+        <button id="loginBtn">Login</button>
+        <button id="getTokenBtn">Get Token</button>
+        <button id="logoutBtn">Logout</button>
+        <button id="embedUrlBtn">Embed URL in iframe</button>
+      </div>
+      <h2>Create an Account</h2>
+      <form>
+        <div class="form-group">
+          <label for="fullname">Full Name</label>
+          <input type="text" id="fullname" name="fullname" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" name="confirm-password" required />
+        </div>
+        <button type="submit" class="submit-btn">Register</button>
+      </form>
+      <div class="login-link">
+        Already have an account? <a href="#">Login here</a>
+      </div>
+    </div>
+
+  <div style="margin-left: 50px;" id="kyc">
+   
+  </div>
 
   <script src="http://127.0.0.1:5500/v1/inlinejs.js"></script>
 
@@ -70,7 +192,11 @@
     document.getElementById("embedUrlBtn").addEventListener("click", () => {
       const url = prompt("Enter a URL to embed in iframe:", "http://localhost:9904");
       if (url) {
-        MerchantPortalAuthenticator.setMerchantKYC(url, "", undefined, "100%");
+        MerchantPortalAuthenticator.setMerchantKYC(url,
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy90aHVtYnByaW50IjoiNzM4ODIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiI4ODBkMWMyOC1kYmFhLTRlOWYtYTU2MC04ZWM3ZDJlYWY4MjAiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL2dyb3Vwc2lkIjoiMTA3NzUiLCJleHAiOjE3NTIyNDIzMDIsImlzcyI6Imh0dHBzOi8vdGVzdC54cHJlc3NwYXltZW50cy5jb206MTYwMSIsImF1ZCI6Imh0dHBzOi8vdGVzdC54cHJlc3NwYXltZW50cy5jb206MTYwMSJ9.gbmuPafJXor2PvtQAvs-Y9kRgXDogIiYL2b-i4y_rpA",
+          "kyc",
+          "1000",
+          );
       }
     });
   </script>
